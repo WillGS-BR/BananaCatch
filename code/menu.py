@@ -15,7 +15,7 @@ class Menu:
         self.op_select = pygame.mixer.Sound("./asset/Sounds/OpSelect.mp3")
         self.title_position = self.title.get_rect(center=(SCR_WIDTH // 2, 160))
         self.controls_position = self.controls.get_rect(center=(SCR_WIDTH // 2, 160))
-        self.font = pygame.font.SysFont(name="lucida Sans Typewriter", size=60)
+        self.font = pygame.font.SysFont(name="Verdana", size=45, bold=True)
         self.clock = pygame.time.Clock()
 
     def run(self):
@@ -39,7 +39,7 @@ class Menu:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if show_controls:
-                        if event.key == pygame.K_ESCAPE:
+                        if event.key == pygame.K_RETURN:
                             show_controls = False
                             self.op_select.play()
                     else:
@@ -72,14 +72,15 @@ class Menu:
             else:
                 color = (255, 255, 255)
 
-            self.menu_text(option, color, (SCR_WIDTH // 2, 380 + 70 * i))
+            self.menu_text(option, color, (SCR_WIDTH // 2, 360 + 80 * i))
 
     def draw_controls(self):
         self.screen.blit(self.menu_bg, (0, 0))
         self.screen.blit(self.controls, self.controls_position)
         self.menu_text("A - Move Left", (255, 255, 255), (SCR_WIDTH // 2, 300))
         self.menu_text("D - Move Right", (255, 255, 255), (SCR_WIDTH // 2, 370))
-        self.menu_text("Press ESC to return", (200, 200, 200), (SCR_WIDTH // 2, 470))
+        self.menu_text("Shift - Run", (255, 255, 255), (SCR_WIDTH // 2, 440))
+        self.menu_text("BACK", (255, 215, 0), (SCR_WIDTH // 2, 530))
 
     def menu_text(self, text: str, text_color: tuple, text_center_pos: tuple):
         text_surf = self.font.render(text, True, text_color).convert_alpha()

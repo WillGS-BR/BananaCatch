@@ -11,7 +11,7 @@ class GameOver:
         self.op_select = pygame.mixer.Sound("./asset/Sounds/OpSelect.mp3")
         self.level_bg = pygame.image.load("./asset/Images/LevelBg.png").convert_alpha()
         self.title_position = self.title.get_rect(center=(SCR_WIDTH // 2, 200))
-        self.font = pygame.font.SysFont(name="lucida Sans Typewriter", size=60)
+        self.font = pygame.font.SysFont(name="Verdana", size=45, bold=True)
 
     def run(self):
         game_over_option = 0
@@ -48,7 +48,7 @@ class GameOver:
                 color = (255, 215, 0)
             else:
                 color = (255, 255, 255)
-            self.game_over_text(option, color, (SCR_WIDTH // 2, 380 + 70 * i))
+            self.game_over_text(option, color, (SCR_WIDTH // 2, 360 + 80 * i))
 
     def game_over_text(self, text: str, text_color: tuple, text_center_pos: tuple):
         text_surf = self.font.render(text, True, text_color).convert_alpha()
