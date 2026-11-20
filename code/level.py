@@ -15,12 +15,14 @@ class Level:
         self.screen = screen
         self.monkey = Monkey()
         self.lives = 3
+        self.score = 0
         self.banana_list = []
         self.branch_list = []
         self.level_bg = pygame.image.load("./asset/Images/LevelBg.png").convert_alpha()
         self.game_over_title = pygame.image.load("./asset/Images/GameOver.png").convert_alpha()
         self.collect_sound = pygame.mixer.Sound('./asset/Sounds/Collect.mp3')
         self.damage_sound = pygame.mixer.Sound('./asset/Sounds/Damage.mp3')
+        self.font = pygame.font.SysFont(name="Verdana", size=35, bold=True)
         pygame.time.set_timer(EVENT_BANANA, SPAWN_TIME)
 
     def run(self):
@@ -40,6 +42,8 @@ class Level:
                     self.banana_list.remove(banana)
                     self.collect_sound.set_volume(0.2)
                     self.collect_sound.play()
+                    self.score += 1
+                    self.monkey.draw(self.screen)
                 if banana.rect.top > SCR_HEIGHT:
                     self.banana_list.remove(banana)
                     self.lives -= 1
@@ -54,6 +58,7 @@ class Level:
                     self.damage_sound.set_volume(0.2)
                     self.damage_sound.play()
 
+            self.level_text(f"Score: {self.score} - Lives: {self.lives}", (230, 0, 0), (SCR_WIDTH / 2, 105))
             pygame.display.flip()
             if self.lives == 0:
                 self.lives = 3
@@ -69,4 +74,8 @@ class Level:
                     else:
                         self.banana_list.append(Banana())
 
+    def level_text(self, text: str, text_color: tuple, text_center_pos: tuple):
+        text_surf = self.font.render(text, True, text_color).convert_alpha()
+        text_rect = text_surf.get_rect(center=text_center_pos)
+        self.screen.blit(text_surf, text_rect)
 
