@@ -1,0 +1,7 @@
+SCR_WIDTH, SCR_HEIGHT = 800, 630
+
+MENU_OPTION = (
+    "PLAY",
+    "CONTROLS",
+    "EXIT"
+)
