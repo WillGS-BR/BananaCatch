@@ -28,15 +28,11 @@ class Menu:
         pygame.mixer.music.set_volume(0.1)
 
         while True:
-
-            # Draw screen
             if show_controls:
                 self.draw_controls()
             else:
                 self.draw_menu(menu_option)
             pygame.display.flip()
-
-            # Events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
