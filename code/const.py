@@ -1,3 +1,5 @@
+import pygame
+
 SCR_WIDTH, SCR_HEIGHT = 800, 630
 
 MENU_OPTION = (
@@ -5,3 +7,9 @@ MENU_OPTION = (
     "CONTROLS",
     "EXIT"
 )
+
+MONKEY_SPEED = 6
+BANANA_SPEED = 2
+
+SPAWN_TIME = 1000
+EVENT_BANANA = pygame.USEREVENT + 1

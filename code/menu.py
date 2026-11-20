@@ -25,6 +25,7 @@ class Menu:
         # Menu music
         pygame.mixer.music.load("./asset/Sounds/MenuMusic.wav")
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
 
         while True:
 
@@ -48,11 +49,14 @@ class Menu:
                     else:
                         if event.key == pygame.K_DOWN:
                             menu_option = (menu_option + 1) % len(MENU_OPTION)
+                            self.op_choice.set_volume(0.1)
                             self.op_choice.play()
                         elif event.key == pygame.K_UP:
                             menu_option = (menu_option - 1) % len(MENU_OPTION)
+                            self.op_choice.set_volume(0.1)
                             self.op_choice.play()
                         elif event.key == pygame.K_RETURN:
+                            self.op_select.set_volume(0.1)
                             self.op_select.play()
                             if menu_option == 1:
                                 show_controls = True
@@ -78,8 +82,8 @@ class Menu:
         self.screen.blit(self.menu_bg, (0, 0))
         self.screen.blit(self.controls, self.controls_position)
         self.menu_text("A - Move Left", (255, 255, 255), (SCR_WIDTH // 2, 300))
-        self.menu_text("D - Move Right",(255, 255, 255),(SCR_WIDTH // 2, 370))
-        self.menu_text("Press ESC to return",(200, 200, 200),(SCR_WIDTH // 2, 470))
+        self.menu_text("D - Move Right", (255, 255, 255), (SCR_WIDTH // 2, 370))
+        self.menu_text("Press ESC to return", (200, 200, 200), (SCR_WIDTH // 2, 470))
 
     def menu_text(self, text: str, text_color: tuple, text_center_pos: tuple):
         text_surf = self.font.render(text, True, text_color).convert_alpha()
