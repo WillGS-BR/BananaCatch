@@ -11,8 +11,6 @@ class Monkey:
     def move(self):
         speed = MONKEY_SPEED
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LSHIFT] and self.rect.right < SCR_WIDTH:
-            speed = MONKEY_SPEED + 2
         if keys[pygame.K_a] and self.rect.left > 0:
             self.rect.x -= speed
         if keys[pygame.K_d] and self.rect.right < SCR_WIDTH:

@@ -6,20 +6,24 @@ from code.const import SCR_WIDTH, GAME_OVER_OPTION
 class GameOver:
     def __init__(self, screen):
         self.screen = screen
+        # Images
         self.title = pygame.image.load('./asset/Images/GameOver.png').convert_alpha()
+        self.level_bg = pygame.image.load("./asset/Images/LevelBg.png").convert_alpha()
+        # Sounds
         self.op_choice = pygame.mixer.Sound("./asset/Sounds/OpChoice.wav")
         self.op_select = pygame.mixer.Sound("./asset/Sounds/OpSelect.mp3")
-        self.level_bg = pygame.image.load("./asset/Images/LevelBg.png").convert_alpha()
-        self.title_position = self.title.get_rect(center=(SCR_WIDTH // 2, 200))
+        # Position
+        self.title_position = self.title.get_rect(center=(SCR_WIDTH // 2, 160))
+        # Settings
         self.font = pygame.font.SysFont(name="Verdana", size=45, bold=True)
 
-    def run(self):
+    def run(self, score):
         game_over_option = 0
         pygame.mixer.music.load("./asset/Sounds/GameOver.mp3")
         pygame.mixer.music.play()
         pygame.mixer.music.set_volume(0.1)
         while True:
-            self.draw_game_over(game_over_option)
+            self.draw_game_over(game_over_option, score)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -40,9 +44,10 @@ class GameOver:
 
             pygame.display.flip()
 
-    def draw_game_over(self, game_over_option):
+    def draw_game_over(self, game_over_option, score):
         self.screen.blit(self.level_bg, (0, 0))
         self.screen.blit(self.title, self.title_position)
+        self.game_over_text(f"Score {score}", (255, 0, 0), (SCR_WIDTH // 2, 260))
         for i, option in enumerate(GAME_OVER_OPTION):
             if i == game_over_option:
                 color = (255, 215, 0)

@@ -1,7 +1,7 @@
 import random
 import pygame
 
-from code.const import BANANA_SPEED
+from code.const import FALLING_SPEED
 
 
 class Banana:
@@ -11,7 +11,7 @@ class Banana:
         self.rect = self.image.get_rect(midtop=(self.spawn, -40))
 
     def move(self):
-        self.rect.y += BANANA_SPEED
+        self.rect.y += FALLING_SPEED
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

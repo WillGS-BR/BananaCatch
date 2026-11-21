@@ -8,26 +8,29 @@ from code.const import SCR_WIDTH, MENU_OPTION
 class Menu:
     def __init__(self, screen):
         self.screen = screen
+        # Images
         self.menu_bg = pygame.image.load("./asset/Images/MenuBg.png").convert_alpha()
         self.title = pygame.image.load("./asset/Images/Title.png").convert_alpha()
         self.controls = pygame.image.load("./asset/Images/Controls.png").convert_alpha()
+        # Sounds
         self.op_choice = pygame.mixer.Sound("./asset/Sounds/OpChoice.wav")
         self.op_select = pygame.mixer.Sound("./asset/Sounds/OpSelect.mp3")
+        # Positions
         self.title_position = self.title.get_rect(center=(SCR_WIDTH // 2, 160))
         self.controls_position = self.controls.get_rect(center=(SCR_WIDTH // 2, 160))
+        # Settings
         self.font = pygame.font.SysFont(name="Verdana", size=45, bold=True)
         self.clock = pygame.time.Clock()
 
     def run(self):
         menu_option = 0
         show_controls = False
-
-        # Menu music
         pygame.mixer.music.load("./asset/Sounds/MenuMusic.wav")
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.1)
 
         while True:
+            self.clock.tick(60)
             if show_controls:
                 self.draw_controls()
             else:
@@ -43,11 +46,11 @@ class Menu:
                             show_controls = False
                             self.op_select.play()
                     else:
-                        if event.key == pygame.K_DOWN:
+                        if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                             menu_option = (menu_option + 1) % len(MENU_OPTION)
                             self.op_choice.set_volume(0.1)
                             self.op_choice.play()
-                        elif event.key == pygame.K_UP:
+                        elif event.key == pygame.K_UP or event.key == pygame.K_w:
                             menu_option = (menu_option - 1) % len(MENU_OPTION)
                             self.op_choice.set_volume(0.1)
                             self.op_choice.play()
@@ -58,8 +61,6 @@ class Menu:
                                 show_controls = True
                             else:
                                 return MENU_OPTION[menu_option]
-
-            self.clock.tick(60)
 
     def draw_menu(self, menu_option):
         self.screen.blit(self.menu_bg, (0, 0))
@@ -79,8 +80,7 @@ class Menu:
         self.screen.blit(self.controls, self.controls_position)
         self.menu_text("A - Move Left", (255, 255, 255), (SCR_WIDTH // 2, 300))
         self.menu_text("D - Move Right", (255, 255, 255), (SCR_WIDTH // 2, 370))
-        self.menu_text("Shift - Run", (255, 255, 255), (SCR_WIDTH // 2, 440))
-        self.menu_text("BACK", (255, 215, 0), (SCR_WIDTH // 2, 530))
+        self.menu_text("BACK", (255, 215, 0), (SCR_WIDTH // 2, 500))
 
     def menu_text(self, text: str, text_color: tuple, text_center_pos: tuple):
         text_surf = self.font.render(text, True, text_color).convert_alpha()

@@ -15,6 +15,7 @@ class Level:
         self.screen = screen
         self.monkey = Monkey()
         self.lives = 3
+        self.difficulty = 1
         self.score = 0
         self.banana_list = []
         self.branch_list = []
@@ -23,18 +24,17 @@ class Level:
         self.collect_sound = pygame.mixer.Sound('./asset/Sounds/Collect.mp3')
         self.damage_sound = pygame.mixer.Sound('./asset/Sounds/Damage.mp3')
         self.font = pygame.font.SysFont(name="Verdana", size=35, bold=True)
+        self.clock = pygame.time.Clock()
         pygame.time.set_timer(EVENT_BANANA, SPAWN_TIME)
 
     def run(self):
         pygame.mixer.music.load("./asset/Sounds/LevelMusic.wav")
         pygame.mixer.music.play()
-        clock = pygame.time.Clock()
         while True:
-            clock.tick(60)
+            self.clock.tick(60)
             self.screen.blit(self.level_bg, (0, 0))
             self.monkey.draw(self.screen)
             self.monkey.move()
-
             for banana in self.banana_list[:]:
                 banana.draw(self.screen)
                 banana.move()
@@ -43,7 +43,9 @@ class Level:
                     self.collect_sound.set_volume(0.2)
                     self.collect_sound.play()
                     self.score += 1
-                    self.monkey.draw(self.screen)
+                    if self.score % 10 == 0:
+                        self.difficulty += 1
+                        self.update_spawn()
                 if banana.rect.top > SCR_HEIGHT:
                     self.banana_list.remove(banana)
                     self.lives -= 1
@@ -57,12 +59,17 @@ class Level:
                     self.lives -= 1
                     self.damage_sound.set_volume(0.2)
                     self.damage_sound.play()
+                if branch.rect.top > SCR_HEIGHT:
+                    self.branch_list.remove(branch)
 
-            self.level_text(f"Score: {self.score} - Lives: {self.lives}", (230, 0, 0), (SCR_WIDTH / 2, 105))
+            self.level_text(f"Score: {self.score} - Lives: {self.lives}", (0, 255, 0), (SCR_WIDTH / 2, 105))
+            self.level_text(f"Difficulty: {self.difficulty}", (230, 0, 0), (SCR_WIDTH / 2, 150))
             pygame.display.flip()
+
+            # Lives check
             if self.lives == 0:
                 self.lives = 3
-                return 0
+                return self.score
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -73,6 +80,10 @@ class Level:
                         self.branch_list.append(Branch())
                     else:
                         self.banana_list.append(Banana())
+
+    def update_spawn(self):
+        new_spawn_time = max(500, SPAWN_TIME - (self.score // 10) * 50)
+        pygame.time.set_timer(EVENT_BANANA, new_spawn_time)
 
     def level_text(self, text: str, text_color: tuple, text_center_pos: tuple):
         text_surf = self.font.render(text, True, text_color).convert_alpha()

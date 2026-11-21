@@ -24,16 +24,15 @@ class Game:
                     self.level = Level(self.screen)
                     while True:
                         level_return = self.level.run()
-                        if level_return == 0:
-                            game_over_return = self.game_over.run()
-                            match game_over_return:
-                                case value if value == GAME_OVER_OPTION[0]:
-                                    self.level = Level(self.screen)
-                                case value if value == GAME_OVER_OPTION[1]:
-                                    break
-                                case value if value == GAME_OVER_OPTION[2]:
-                                    pygame.quit()
-                                    quit()
+                        game_over_return = self.game_over.run(level_return)
+                        match game_over_return:
+                            case value if value == GAME_OVER_OPTION[0]:
+                                self.level = Level(self.screen)
+                            case value if value == GAME_OVER_OPTION[1]:
+                                break
+                            case value if value == GAME_OVER_OPTION[2]:
+                                pygame.quit()
+                                quit()
                 case value if value == MENU_OPTION[2]:
                     pygame.quit()
                     quit()
